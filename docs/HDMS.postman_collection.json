@@ -1,0 +1,117 @@
+{
+  "info": {
+    "name": "HDMS — Helpdesk Ticket Management System",
+    "description": "Postman collection for the HDMS Phase 1 REST API. Set the {{base_url}} variable (default http://localhost:8000) and run requests top-to-bottom.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "hdms-phase1-collection"
+  },
+  "variable": [
+    { "key": "base_url",  "value": "http://localhost:8000" },
+    { "key": "ticket_id", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/health", "host": ["{{base_url}}"], "path": ["health"] }
+      }
+    },
+    {
+      "name": "List All Tickets",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/tickets", "host": ["{{base_url}}"], "path": ["tickets"] }
+      }
+    },
+    {
+      "name": "Get Ticket by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/tickets/{{ticket_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["tickets", "{{ticket_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Create Ticket",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee_name\": \"Sairam Reddy\",\n  \"department\": \"Engineering\",\n  \"issue_category\": \"VPN Issue\",\n  \"description\": \"VPN client crashes immediately after launch.\",\n  \"priority\": \"High\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/tickets", "host": ["{{base_url}}"], "path": ["tickets"] }
+      }
+    },
+    {
+      "name": "Update Ticket",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"In Progress\",\n  \"resolution_notes\": \"Reinstalled VPN client; awaiting user confirmation.\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/tickets/{{ticket_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["tickets", "{{ticket_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Delete Ticket",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{base_url}}/tickets/{{ticket_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["tickets", "{{ticket_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Search — keyword only",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/search?keyword=VPN",
+          "host": ["{{base_url}}"],
+          "path": ["search"],
+          "query": [{ "key": "keyword", "value": "VPN" }]
+        }
+      }
+    },
+    {
+      "name": "Search — status + priority",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/search?status=Open&priority=Critical",
+          "host": ["{{base_url}}"],
+          "path": ["search"],
+          "query": [
+            { "key": "status",   "value": "Open" },
+            { "key": "priority", "value": "Critical" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Search — category filter",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/search?category=VPN Issue",
+          "host": ["{{base_url}}"],
+          "path": ["search"],
+          "query": [{ "key": "category", "value": "VPN Issue" }]
+        }
+      }
+    }
+  ]
+}
